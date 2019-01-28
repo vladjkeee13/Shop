@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/HomePage/style.css' %}">
+    <title> CasualClothing </title>
+</head>
+
+<body>
+
+<h1> Welcome to our site! </h1>
+
+
+<div class="block1">
+    <a href="{% url 'core:the-north-face' %}" >
+        <img class="img1" src="{% static "core/images/Brands/TheNorthFace/logo.png" %}" alt="logo-image">
+    </a>
+</div>
+
+<div class="block4">
+    <p>
+        The North Face, Inc. is an American outdoor product company specializing in outerwear, fleece, coats, shirts,
+        footwear, and equipment such as backpacks, tents, and sleeping bags.
+        Its clothing and equipment lines are catered towards outdoor enthusiasts, climbers, mountaineers, skiers,
+        snowboarders, hikers, and endurance athletes.
+        The company sponsors professional athletes from the worlds of running, climbing, skiing and snowboarding.
+    </p>
+</div>
+
+<div class="block2">
+    <a href="{% url 'core:jack-wolfskin' %}" >
+        <img class="img2" src="{% static "core/images/Brands/JackWolfskin/logo.png" %}" alt="logo-image">
+    </a>
+</div>
+
+<div class="block5">
+    <p>
+        Jack Wolfskin is a major German producer of outdoor wear and equipment headquartered in Idstein.
+        It was founded in 1981 and is now one of the biggest suppliers of outdoor products and at the same time most
+        successful franchiser in the German specialist trade market of sports equipment. Their products include mountain
+        and leisure clothing, footwear, rucksacks, sleeping bags, and tents. The brand is popular not only among hikers
+        and mountaineers but predominantly worn in everyday situations; Jack Wolfskin clothes and accessories are
+        fashionable amongst urban Germans Wilderness chic.
+    </p>
+</div>
+
+<div class="block3">
+    <a href="{% url 'core:berghaus' %}" >
+        <img class="img3" src="{% static "core/images/Brands/Berghaus/logo.png" %}" alt="logo-image">
+    </a>
+</div>
+
+<div class="block6">
+    <p>
+        Berghaus Limited is an outdoor clothing and equipment manufacturer headquartered in Sunderland,
+        Tyne & Wear, UK. It is based in the North East of England but distributes worldwide.
+        It was founded in 1966 by climbers and mountaineers Peter Lockey and Gordon Davison, initially as an importer
+        and distributor of outdoors products. Lockey and Davison's outdoor store in Newcastle-upon-Tyne, UK,
+        went by the name of the LD Mountain Centre. In 1972 they began designing and manufacturing their own products
+        for sale in their shop. They called their brand 'Berghaus' which is a literal translation of 'mountain house'
+        in German.
+    </p>
+</div>
+
+</body>
+
+</html>

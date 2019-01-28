@@ -1,0 +1,32 @@
+body {
+    background: lightgrey;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+div {
+    width: 360px;
+    border: solid 1px black;
+    position: fixed;
+    height: 360px;
+}
+
+div.block1 {
+    left: 50px;
+}
+
+div.block2 {
+    left: 460px;
+}
+
+div.block3 {
+    left: 870px;
+}
+
+img.img1 {
+    height: 360px;
+    width: 360px;
+}
