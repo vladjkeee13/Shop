@@ -30,3 +30,12 @@ img.img1 {
     height: 360px;
     width: 360px;
 }
+
+h2 {
+    position: absolute;
+	top	: 300px;
+	text-align: center;
+	width: 100%;
+    color: lightgrey;
+    font-size: 30px;
+}
