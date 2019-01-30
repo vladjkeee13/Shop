@@ -14,10 +14,6 @@ class JackWolfsinViews(TemplateView):
 class TheNorthFaceView(TemplateView):
     template_name = 'Brands/TheNorthFace.html'
 
-#
-# class BerghausView(TemplateView):
-#     template_name = 'Brands/Berghaus.html'
-
 
 class BerghausView(View):
 
