@@ -4,8 +4,20 @@ from django.db import models
 
 class Product(models.Model):
 
+    GENDER_WOMEN = 0
+    GENDER_MEN = 1
+    GENDER_UNISEX = 2
+    GENDER_KIDS = 3
+
+    GENDER_CHOICES = (
+        (GENDER_WOMEN, "Women's"),
+        (GENDER_MEN, "Men's"),
+        (GENDER_UNISEX, "Unisex"),
+        (GENDER_KIDS, "Kids'")
+    )
+
     name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=255)
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=GENDER_UNISEX)
     category = models.ManyToManyField("product.Category")
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
