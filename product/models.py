@@ -31,10 +31,10 @@ class Brand(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField()
-    image_logo = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
-    image_women = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
-    image_men = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
-    image_kids = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
+    image_logo = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_logo')
+    image_women = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_women')
+    image_men = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_men')
+    image_kids = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_kids')
 
     def __str__(self):
         return self.name
