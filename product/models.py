@@ -20,6 +20,9 @@ class Category(models.Model):
     description = models.TextField()
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Brand(models.Model):
 
@@ -29,6 +32,9 @@ class Brand(models.Model):
     image_women = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
     image_men = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
     image_kids = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Comment(models.Model):
