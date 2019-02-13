@@ -10,8 +10,8 @@ class Product(models.Model):
     GENDER_KIDS = 3
 
     GENDER_CHOICES = (
-        (GENDER_WOMEN, "Women's"),
-        (GENDER_MEN, "Men's"),
+        (GENDER_WOMEN, "Women"),
+        (GENDER_MEN, "Men"),
         (GENDER_UNISEX, "Unisex"),
         (GENDER_KIDS, "Kids'")
     )
@@ -33,7 +33,22 @@ class Category(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField()
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
+
+
+class Subcategory(models.Model):
+
+    name = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = "Subcategory"
+        verbose_name_plural = "Subcategories"
 
     def __str__(self):
         return self.name
