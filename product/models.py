@@ -4,25 +4,13 @@ from django.db import models
 
 class Product(models.Model):
 
-    GENDER_WOMEN = 0
-    GENDER_MEN = 1
-    GENDER_UNISEX = 2
-    GENDER_KIDS = 3
-
-    GENDER_CHOICES = (
-        (GENDER_WOMEN, "Women"),
-        (GENDER_MEN, "Men"),
-        (GENDER_UNISEX, "Unisex"),
-        (GENDER_KIDS, "Kids'")
-    )
-
     name = models.CharField(max_length=255)
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=GENDER_UNISEX)
+    gender = models.ForeignKey("product.Gender", on_delete=models.SET_NULL, null=True)
     category = models.ManyToManyField("product.Category")
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
     price = models.PositiveSmallIntegerField(default=0)
-    size = models.CharField(max_length=255)
+    size = models.ForeignKey('product.Size', on_delete=models.SET_NULL, null=True)
     description = models.TextField()
 
     def __str__(self):
@@ -32,23 +20,12 @@ class Product(models.Model):
 class Category(models.Model):
 
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return self.name
-
-
-class Subcategory(models.Model):
-
-    name = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        verbose_name = "Subcategory"
-        verbose_name_plural = "Subcategories"
 
     def __str__(self):
         return self.name
@@ -80,3 +57,35 @@ class Comment(models.Model):
 class Image(models.Model):
 
     image = models.ImageField(upload_to='all_images')
+
+
+class Gender(models.Model):
+
+    GENDER_WOMEN = 0
+    GENDER_MEN = 1
+    GENDER_UNISEX = 2
+    GENDER_KIDS = 3
+
+    GENDER_CHOICES = (
+        (GENDER_WOMEN, "Women"),
+        (GENDER_MEN, "Men"),
+        (GENDER_UNISEX, "Unisex"),
+        (GENDER_KIDS, "Kids")
+    )
+
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=GENDER_UNISEX)
+
+    def __str__(self):
+        for number in self.GENDER_CHOICES:
+            if self.gender == number[0]:
+                return number[1]
+
+
+class Size(models.Model):
+
+    label = models.CharField(max_length=255)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    gender = models.ForeignKey('Gender', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.label

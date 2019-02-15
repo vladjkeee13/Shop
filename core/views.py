@@ -2,9 +2,21 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
+from product.models import Brand
+
 
 class HomeView(TemplateView):
     template_name = 'homePage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        brands = Brand.objects.all()
+        context.update(
+            {
+                'brands': brands
+            }
+        )
+        return context
 
 
 class JackWolfsinViews(TemplateView):

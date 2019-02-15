@@ -8,3 +8,4 @@ urlpatterns = [
     path('the-north-face/', TheNorthFaceView.as_view(), name='the-north-face'),
     path('berghaus/', BerghausView.as_view(), name='berghaus')
 ]
+

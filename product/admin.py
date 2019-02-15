@@ -1,9 +1,16 @@
 from django.contrib import admin
 
-from product.models import Product, Category, Brand, Image, Subcategory
+from product.models import Product, Category, Brand, Image, Size, Gender
 
-admin.site.register(Product)
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'brand', 'gender', 'price')
+    search_fields = ('brand__name', )
+
+
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Brand)
 admin.site.register(Image)
-admin.site.register(Subcategory)
+admin.site.register(Size)
+admin.site.register(Gender)
