@@ -1,5 +1,4 @@
 from django.urls import path
-
 from core.views import HomeView, JackWolfsinViews, TheNorthFaceView, BerghausView
 
 urlpatterns = [
@@ -8,4 +7,3 @@ urlpatterns = [
     path('the-north-face/', TheNorthFaceView.as_view(), name='the-north-face'),
     path('berghaus/', BerghausView.as_view(), name='berghaus')
 ]
-

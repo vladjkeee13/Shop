@@ -1,33 +1,45 @@
-from django.shortcuts import render
-from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from product.models import Brand
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'homePage.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        brands = Brand.objects.all()
-        context.update(
-            {
-                'brands': brands
-            }
-        )
-        return context
+    model = Brand
+    context_object_name = 'brands'
 
 
 class JackWolfsinViews(TemplateView):
     template_name = 'Brands/JackWolfskin.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        brands = Brand.objects.filter(name='Jack Wolfskin')
+        context.update({
+            'brands': brands
+        })
+        return context
+
 
 class TheNorthFaceView(TemplateView):
     template_name = 'Brands/TheNorthFace.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        brands = Brand.objects.filter(name='The North Face')
+        context.update({
+            'brands': brands
+        })
+        return context
 
-class BerghausView(View):
 
-    def get(self, request):
-        return render(request, 'Brands/Berghaus.html')
+class BerghausView(TemplateView):
+    template_name = 'Brands/Berghaus.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        brands = Brand.objects.filter(name='Berghaus')
+        context.update({
+            'brands': brands
+        })
+        return context

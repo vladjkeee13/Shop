@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Product(models.Model):
 
     name = models.CharField(max_length=255)
     gender = models.ForeignKey("product.Gender", on_delete=models.SET_NULL, null=True)
-    category = models.ManyToManyField("product.Category")
+    category = TreeForeignKey("product.Category", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
     price = models.PositiveSmallIntegerField(default=0)
@@ -16,12 +17,31 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    # def get_prent_array(self, category):
+    #     end = False
+    #     while end == False:
+    #
+    #
+    # def save(self, *args, **kwargs):
+    #     self.name = "Other name"
+    #     #parent_category_id = self.category.get().parent_id
+    #     for category in self.category.all():
+    #         parent_id = category.parent_id
+    #
+    #
+    #
+    #     super(Product, self).save()
+    #
 
-class Category(models.Model):
+
+class Category(MPTTModel):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
     class Meta:
         verbose_name = "Category"
@@ -84,7 +104,7 @@ class Gender(models.Model):
 class Size(models.Model):
 
     label = models.CharField(max_length=255)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = TreeForeignKey("product.Category", on_delete=models.SET_NULL, null=True)
     gender = models.ForeignKey('Gender', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
