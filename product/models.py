@@ -3,6 +3,12 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+class ProductSizeSubModel(models.Model):
+    product = models.ForeignKey('product.Product', on_delete=models.CASCADE)
+    size = models.ForeignKey('product.Size', on_delete=models.CASCADE)
+    count = models.IntegerField(default=0)
+
+
 class Product(models.Model):
 
     name = models.CharField(max_length=255)
@@ -11,7 +17,7 @@ class Product(models.Model):
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
     price = models.PositiveSmallIntegerField(default=0)
-    size = models.ForeignKey('product.Size', on_delete=models.SET_NULL, null=True)
+    size = models.ManyToManyField('product.Size', through=ProductSizeSubModel)
     description = models.TextField()
 
     def __str__(self):
