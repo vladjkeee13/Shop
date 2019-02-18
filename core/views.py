@@ -9,37 +9,28 @@ class HomeView(ListView):
     context_object_name = 'brands'
 
 
-class JackWolfsinViews(TemplateView):
+class JackWolfsinViews(ListView):
     template_name = 'Brands/JackWolfskin.html'
+    model = Brand
+    context_object_name = 'brands'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        brands = Brand.objects.filter(name='Jack Wolfskin')
-        context.update({
-            'brands': brands
-        })
-        return context
+    def get_queryset(self):
+        return self.model.objects.filter(name='Jack Wolfskin')
 
 
-class TheNorthFaceView(TemplateView):
+class TheNorthFaceView(ListView):
     template_name = 'Brands/TheNorthFace.html'
+    model = Brand
+    context_object_name = 'brands'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        brands = Brand.objects.filter(name='The North Face')
-        context.update({
-            'brands': brands
-        })
-        return context
+    def get_queryset(self):
+        return self.model.objects.filter(name='The North Face')
 
 
-class BerghausView(TemplateView):
+class BerghausView(ListView):
     template_name = 'Brands/Berghaus.html'
+    model = Brand
+    context_object_name = 'brands'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        brands = Brand.objects.filter(name='Berghaus')
-        context.update({
-            'brands': brands
-        })
-        return context
+    def get_queryset(self):
+        return self.model.objects.filter(name='Berghaus')
