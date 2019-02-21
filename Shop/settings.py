@@ -78,6 +78,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Shop.wsgi.application'
 
 
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda r: False,  # disables it
+}
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 

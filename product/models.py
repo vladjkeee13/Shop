@@ -8,6 +8,10 @@ class ProductSizeSubModel(models.Model):
     size = models.ForeignKey('product.Size', on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
 
+    def size_selection(self):
+        if self.product.gender.GENDER_WOMEN:
+            return self.size.gender.GENDER_WOMEN
+
 
 class Product(models.Model):
 
@@ -22,22 +26,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-    # def get_prent_array(self, category):
-    #     end = False
-    #     while end == False:
-    #
-    #
-    # def save(self, *args, **kwargs):
-    #     self.name = "Other name"
-    #     #parent_category_id = self.category.get().parent_id
-    #     for category in self.category.all():
-    #         parent_id = category.parent_id
-    #
-    #
-    #
-    #     super(Product, self).save()
-    #
 
 
 class Category(MPTTModel):

@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView, DetailView
 
 from product.models import Brand
 
@@ -9,28 +9,6 @@ class HomeView(ListView):
     context_object_name = 'brands'
 
 
-class JackWolfsinViews(ListView):
-    template_name = 'Brands/JackWolfskin.html'
-    model = Brand
-    context_object_name = 'brands'
-
-    def get_queryset(self):
-        return self.model.objects.filter(name='Jack Wolfskin')
-
-
-class TheNorthFaceView(ListView):
-    template_name = 'Brands/TheNorthFace.html'
-    model = Brand
-    context_object_name = 'brands'
-
-    def get_queryset(self):
-        return self.model.objects.filter(name='The North Face')
-
-
-class BerghausView(ListView):
-    template_name = 'Brands/Berghaus.html'
-    model = Brand
-    context_object_name = 'brands'
-
-    def get_queryset(self):
-        return self.model.objects.filter(name='Berghaus')
+class BrandsView(DetailView):
+    template_name = 'brands.html'
+    queryset = Brand.objects.all()

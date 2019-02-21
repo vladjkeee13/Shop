@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block include_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/brands_style.css' %}">
+{% endblock include_css %}
+
+
+{% block title %}
+    {{ object.name }}
+{% endblock %}
+
+
+{% block content %}
+
+    {% include 'include_sections_for_brands.html' %}
+
+    <div class="block1">
+        <img class="img1" src="/media/{{ object.image_women.image }}" alt="Img1">
+        <h2> Women </h2>
+    </div>
+
+    <div class="block2">
+        <img class="img1" src="/media/{{ object.image_men.image }}" alt="Img2">
+        <h2> Men </h2>
+    </div>
+
+    <div class="block3">
+        <img class="img1" src="/media/{{ object.image_kids.image }}" alt="Img3">
+        <h2> Kids </h2>
+    </div>
+
+{% endblock %}
