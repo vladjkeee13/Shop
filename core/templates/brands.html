@@ -10,7 +10,7 @@
 
 
 {% block title %}
-    {{ object.name }}
+    {{ brand.name }}
 {% endblock %}
 
 
@@ -19,18 +19,24 @@
     {% include 'include_sections_for_brands.html' %}
 
     <div class="block1">
-        <img class="img1" src="/media/{{ object.image_women.image }}" alt="Img1">
-        <h2> Women </h2>
+        <img class="img1" src="/media/{{ brand.image_women.image }}" alt="Img1">
+        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Women' %}" >
+            <h2> Women </h2>
+        </a>
     </div>
 
     <div class="block2">
-        <img class="img1" src="/media/{{ object.image_men.image }}" alt="Img2">
-        <h2> Men </h2>
+        <img class="img1" src="/media/{{ brand.image_men.image }}" alt="Img2">
+        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Men' %}" >
+            <h2> Men </h2>
+        </a>
     </div>
 
     <div class="block3">
-        <img class="img1" src="/media/{{ object.image_kids.image }}" alt="Img3">
-        <h2> Kids </h2>
+        <img class="img1" src="/media/{{ brand.image_kids.image }}" alt="Img3">
+        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Kids' %}" >
+            <h2> Kids </h2>
+        </a>
     </div>
 
 {% endblock %}

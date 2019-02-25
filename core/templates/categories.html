@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block include_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/categories_style.css' %}">
+{% endblock include_css %}
+
+
+{% block title %}
+    {{ category }}
+{% endblock %}
+
+{% block content %}
+
+
+    <h1> Please, select the category you are interested in! </h1>
+
+    <span class="main_cat"> {{ category }} </span>
+    <br>
+
+    {% for categor in children_of_category %}
+        <a href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=categor.name %}">
+            <span class="children"> -{{ categor }} </span> </a>
+        <br>
+    {% endfor %}
+
+{% endblock %}

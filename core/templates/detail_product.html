@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block include_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/detail_product_style.css' %}">
+{% endblock include_css %}
+
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="column left">
+            {% for image in product.image.all|slice:"2:" %}
+                <img class="img2" src="/media/{{ image }}" alt="Img1">
+                <br>
+            {% endfor %}
+        </div>
+
+        <div class="column middle">
+            <img class="img1" src="/media/{{ product.image.first }}" alt="Img1">
+        </div>
+
+        <div class="column right">
+            <h2> {{ product.name }} </h2>
+            <h2> Price: </h2> {{ product.price }}$
+            <h2> Size: </h2>
+                {% for prod in product.productsizesubmodel_set.all %}
+                    {{ prod.size }} ({{ prod.count }})
+                {% endfor %}
+            <br>
+        </div>
+
+    </div>
+
+    <div>
+
+        <br>
+        <h2> Description: </h2> {{ product.description }}
+
+    </div>
+
+{% endblock %}

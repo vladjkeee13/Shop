@@ -19,7 +19,7 @@
     <h1> Welcome to our site! </h1>
 
     <div class="block1">
-        <a href="{% url 'core:brand' 1 %}" >
+        <a href="{% url 'core:brand' brand_name='TheNorthFace' %}" >
             <img class="img1" src="/media/{{ brands.0.image_logo.image }}" alt="logo-image">
         </a>
     </div>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="block2">
-        <a href="{% url 'core:brand' 2 %}" >
+        <a href="{% url 'core:brand' brand_name='JackWolfskin' %}" >
             <img class="img2" src="/media/{{ brands.1.image_logo.image }}" alt="logo-image">
         </a>
     </div>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="block3">
-        <a href="{% url 'core:brand' 3 %}" >
+        <a href="{% url 'core:brand' brand_name='Berghaus' %}" >
             <img class="img3" src="/media/{{ brands.2.image_logo.image }}" alt="logo-image">
         </a>
     </div>

@@ -20,7 +20,7 @@ class Product(models.Model):
     category = TreeForeignKey("product.Category", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
-    price = models.PositiveSmallIntegerField(default=0)
+    price = models.FloatField(default=0)
     size = models.ManyToManyField('product.Size', through=ProductSizeSubModel)
     description = models.TextField()
 
@@ -71,6 +71,9 @@ class Comment(models.Model):
 class Image(models.Model):
 
     image = models.ImageField(upload_to='all_images')
+
+    def __str__(self):
+        return str(self.image)
 
 
 class Gender(models.Model):

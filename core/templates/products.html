@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block include_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/products_style.css' %}">
+{% endblock include_css %}
+
+
+{% block title %}
+    {{ category }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+            {% for product in product_collection %}
+                <img class="img1" src="/media/{{ product.image.first }}" alt="Img1">
+                <br>
+                <a href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
+                    {{ product.name }} </a>
+            <br>
+            {% endfor %}
+
+    </div>
+
+{% endblock %}

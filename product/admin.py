@@ -13,10 +13,14 @@ class ProductSizeSubModelAdmin(admin.ModelAdmin):
     list_display = ('product', 'size', 'count')
 
 
+class SizeAdmin(admin.ModelAdmin):
+    list_display = ('label', 'category', 'gender')
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, MPTTModelAdmin)
 admin.site.register(Brand)
 admin.site.register(Image)
-admin.site.register(Size)
+admin.site.register(Size, SizeAdmin)
 admin.site.register(Gender)
 admin.site.register(ProductSizeSubModel, ProductSizeSubModelAdmin)
