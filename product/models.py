@@ -33,6 +33,7 @@ class Category(MPTTModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    order = models.PositiveSmallIntegerField(default=0)
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -53,6 +54,7 @@ class Brand(models.Model):
     image_women = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_women')
     image_men = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_men')
     image_kids = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_kids')
+    order = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.name

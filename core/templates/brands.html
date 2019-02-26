@@ -18,25 +18,19 @@
 
     {% include 'include_sections_for_brands.html' %}
 
-    <div class="block1">
-        <img class="img1" src="/media/{{ brand.image_women.image }}" alt="Img1">
-        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Women' %}" >
-            <h2> Women </h2>
-        </a>
-    </div>
+        {% for image in list_images %}
 
-    <div class="block2">
-        <img class="img1" src="/media/{{ brand.image_men.image }}" alt="Img2">
-        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Men' %}" >
-            <h2> Men </h2>
-        </a>
-    </div>
+                <img class="img" src="/media/{{ image }}" alt="Img1">
 
-    <div class="block3">
-        <img class="img1" src="/media/{{ brand.image_kids.image }}" alt="Img3">
-        <a href="{% url 'core:categories' brand_name=brand.name gender_category='Kids' %}" >
-            <h2> Kids </h2>
+        {% endfor %}
+
+
+    {% for cat in category %}
+
+        <a href="{% url 'core:categories' brand_name=brand.name gender_category=cat.name %}" >
+            <h2 class="block{{ forloop.counter }}"> {{ cat.name }} </h2>
         </a>
-    </div>
+
+    {% endfor %}
 
 {% endblock %}

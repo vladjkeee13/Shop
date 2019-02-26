@@ -17,41 +17,18 @@
 {% block content %}
 
     <h1> Welcome to our site! </h1>
+    {% for brand in brands %}
+        <div class="block{{ forloop.counter }}">
+            <a href="{% url 'core:brand' brand_name=brand.name %}" >
+                <img class="img{{ forloop.counter }}" src="/media/{{ brand.image_logo.image }}" alt="logo-image">
+            </a>
+        </div>
 
-    <div class="block1">
-        <a href="{% url 'core:brand' brand_name='TheNorthFace' %}" >
-            <img class="img1" src="/media/{{ brands.0.image_logo.image }}" alt="logo-image">
-        </a>
-    </div>
-
-    <div class="block4">
-        <p>
-            {{ brands.0.description }}
-        </p>
-    </div>
-
-    <div class="block2">
-        <a href="{% url 'core:brand' brand_name='JackWolfskin' %}" >
-            <img class="img2" src="/media/{{ brands.1.image_logo.image }}" alt="logo-image">
-        </a>
-    </div>
-
-    <div class="block5">
-        <p>
-            {{ brands.1.description }}
-        </p>
-    </div>
-
-    <div class="block3">
-        <a href="{% url 'core:brand' brand_name='Berghaus' %}" >
-            <img class="img3" src="/media/{{ brands.2.image_logo.image }}" alt="logo-image">
-        </a>
-    </div>
-
-    <div class="block6">
-        <p>
-            {{ brands.2.description }}
-        </p>
-    </div>
+        <div class="block{{ forloop.counter|add:3 }}">
+            <p>
+                {{ brand.description }}
+            </p>
+        </div>
+    {% endfor %}
 
 {% endblock content%}

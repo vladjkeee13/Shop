@@ -13,6 +13,6 @@ img.img1 {
     height: 300px;
 }
 
-div {
+.row {
   column-count: 3;
 }
