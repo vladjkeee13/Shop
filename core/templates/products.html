@@ -15,15 +15,26 @@
 
 {% block content %}
 
-    <div class="row">
-            {% for product in product_collection %}
-                <img class="img1" src="/media/{{ product.image.first }}" alt="Img1">
-                <br>
-                <a href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
-                    {{ product.name }} </a>
-            <br>
-            {% endfor %}
+    <div class="grid">
 
-    </div>
+        {% for product in product_collection %}
+
+        <div class="product">
+
+            <div class="product-image">
+                <img src="/media/{{ product.image.first }}" alt="Img1">
+            </div>
+
+            <div class="product-info">
+                <a href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
+                        {{ product.name }} </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+	</div>
 
 {% endblock %}

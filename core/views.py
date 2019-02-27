@@ -1,4 +1,5 @@
-from django.views.generic import ListView, TemplateView
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, TemplateView, DetailView
 
 from product.models import Brand, Category, Product
 
@@ -13,40 +14,14 @@ class HomeView(ListView):
     queryset = Brand.objects.all().select_related('image_logo')
 
 
-# class BrandsView(TemplateView):
-#
-#     template_name = 'brands.html'
-#     ordering = ['order']
-#
-#     def get_context_data(self, **kwargs):
-#
-#         context = super().get_context_data(**kwargs)
-#         brand = Brand.objects.get(name=self.kwargs['brand_name'])
-#         category = Category.objects.filter(level=0)
-#         context.update({
-#             'brand': brand,
-#             'category': category
-#         })
-#         return context
-
-class BrandsView(ListView):
+class BrandsView(DetailView):
 
     template_name = 'brands.html'
-    model = Category
-    context_object_name = 'category'
-    ordering = ['order']
 
-    queryset = Category.objects.filter(level=0)
+    def get_object(self, queryset=None):
+        name = self.kwargs.get("brand_name")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        brand = Brand.objects.get(name=self.kwargs['brand_name'])
-        list_images = [brand.image_women, brand.image_men, brand.image_kids]
-        context.update({
-            'brand': brand,
-            'list_images': list_images
-        })
-        return context
+        return get_object_or_404(Brand, name=name)
 
 
 class CategoriesView(TemplateView):
@@ -54,16 +29,19 @@ class CategoriesView(TemplateView):
     template_name = 'categories.html'
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         category = Category.objects.get(name=self.kwargs['gender_category'])
         brand = Brand.objects.get(name=self.kwargs['brand_name'])
         children_of_category = category.get_descendants()
+
         context.update({
             'category': category,
             'brand': brand,
             'children_of_category': children_of_category,
             'gender_category': category.get_root()
         })
+
         return context
 
 
@@ -83,6 +61,7 @@ class ProductsView(TemplateView):
     template_name = 'products.html'
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         cat = Category.objects.all().filter(name=self.kwargs['category'])
         brand = Brand.objects.get(name=self.kwargs['brand_name'])
