@@ -1,7 +1,10 @@
-from django.shortcuts import get_object_or_404
+from builtins import super
+
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView, DetailView
 
-from product.models import Brand, Category, Product
+from core.forms import AddReviewForm
+from product.models import Brand, Category, Product, Comment
 
 
 class HomeView(ListView):
@@ -17,11 +20,13 @@ class HomeView(ListView):
 class BrandsView(DetailView):
 
     template_name = 'brands.html'
+    slug_field = 'name'
+    model = Brand
+    slug_url_kwarg = 'brand_name'
 
-    def get_object(self, queryset=None):
-        name = self.kwargs.get("brand_name")
-
-        return get_object_or_404(Brand, name=name)
+    def get_queryset(self):
+        queryset = super(BrandsView, self).get_queryset()
+        return queryset.select_related('image_women', 'image_men')
 
 
 class CategoriesView(TemplateView):
@@ -80,16 +85,43 @@ class ProductsView(TemplateView):
         return context
 
 
-class DetailProductView(TemplateView):
+class DetailProductView(DetailView):
 
     template_name = 'detail_product.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        product = Product.objects.get(name=self.kwargs['product_name'])
+    def get_object(self, queryset=None):
 
-        context.update({
-            'product': product
-        })
+        name = self.kwargs.get('product_name')
+
+        return get_object_or_404(Product, name=name)
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = Comment.objects.all()
 
         return context
+
+
+class AddReviewView(TemplateView):
+
+    template_name = 'add_review.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['form'] = AddReviewForm()
+
+        return context
+
+    def post(self, request):
+
+        context = self.get_context_data()
+        form = AddReviewForm(request.POST)
+        context['form'] = form
+
+        if form.is_valid():
+            form.save(request.user)
+            return redirect('core:index')
+
+        return self.render_to_response(context)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
-from product.models import Product, Category, Brand, Image, Size, Gender, ProductSizeSubModel
+from product.models import Product, Category, Brand, Image, Size, Gender, ProductSizeSubModel, Comment
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -34,3 +34,4 @@ admin.site.register(Image)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Gender)
 admin.site.register(ProductSizeSubModel, ProductSizeSubModelAdmin)
+admin.site.register(Comment)

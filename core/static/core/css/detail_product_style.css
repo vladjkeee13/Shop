@@ -37,7 +37,12 @@ span.product_name {
 
 /* Clear floats after the columns */
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+input {
+    position: absolute; /* блок занимает ширину содержимого, max-width её ограничивает */
+    left: 20%;
 }

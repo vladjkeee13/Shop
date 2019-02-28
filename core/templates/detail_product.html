@@ -10,7 +10,7 @@
 
 
 {% block title %}
-    {{ product.name }}
+    {{ object.name }}
 {% endblock %}
 
 {% block content %}
@@ -18,21 +18,21 @@
     <div class="row">
 
         <div class="column left">
-            {% for image in product.image.all|slice:"2:" %}
+            {% for image in object.image.all|slice:"2:" %}
                 <img class="img2" src="/media/{{ image }}" alt="Img1">
                 <br>
             {% endfor %}
         </div>
 
         <div class="column middle">
-            <img class="img1" src="/media/{{ product.image.first }}" alt="Img1">
+            <img class="img1" src="/media/{{ object.image.first }}" alt="Img1">
         </div>
 
         <div class="column right">
-            <h2> {{ product.name }} </h2>
-            <h2> Price: </h2> {{ product.price }}$
+            <h2> {{ object.name }} </h2>
+            <h2> Price: </h2> {{ object.price }}$
             <h2> Size: </h2>
-                {% for prod in product.productsizesubmodel_set.all %}
+                {% for prod in object.productsizesubmodel_set.all %}
                     {{ prod.size }} ({{ prod.count }})
                 {% endfor %}
             <br>
@@ -45,6 +45,26 @@
         <br>
         <h2> Description: </h2> {{ product.description }}
 
+    </div>
+
+    <div>
+        <h2> Reviews: </h2>
+        <div>
+        {% if reviews %}
+            {% for review in reviews %}
+                {{ review.author }}
+                {{ review.date }}
+                {{ review.text }}
+                {{ review.product }}
+                <br>
+            {% endfor %}
+        {% else %}
+            <span> 0 Review </span>
+        {% endif %}
+
+        </div>
+    <br>
+        <a href="{% url 'core:add_review' %}" product_id={{ object.id }}> Add a review</a>
     </div>
 
 {% endblock %}
