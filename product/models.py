@@ -67,7 +67,7 @@ class Comment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='replies')
 
 
 class Image(models.Model):

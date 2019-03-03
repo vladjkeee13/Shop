@@ -49,22 +49,39 @@
 
     <div>
         <h2> Reviews: </h2>
-        <div>
+
         {% if reviews %}
+
             {% for review in reviews %}
-                {{ review.author }}
-                {{ review.date }}
-                {{ review.text }}
-                {{ review.product }}
-                <br>
+                <div class="reviews">
+                    <span class="author" > {{ review.author }} </span>
+                    {{ review.date }}
+                    <br>
+                    <br>
+                    {{ review.text }}
+                    <br>
+                    <a class="reply" href="{% url 'core:add_review' %}?product_id={{ object.id }}&parent_id={{ review.id }}"> <button> Reply </button> </a>
+                    <br>
+                {% for replay in review.replies.all %}
+                    <div class="reply_div">
+                        <span class="author"> {{ review.author }} </span>
+                        {{ replay.date }}
+                        <br>
+                        <br>
+                        {{ replay.text }}
+                    <br>
+                    </div>
+                    <br>
+                {% endfor %}
+                </div>
             {% endfor %}
+
         {% else %}
-            <span> 0 Review </span>
+            <span> There are no comments yet. </span>
         {% endif %}
 
-        </div>
-    <br>
-        <a href="{% url 'core:add_review' %}" product_id={{ object.id }}> Add a review</a>
-    </div>
 
+
+    </div>
+    <a class="add_review" href="{% url 'core:add_review' %}?product_id={{ object.id }} "> <button> Add a review </button></a>
 {% endblock %}

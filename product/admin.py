@@ -27,6 +27,10 @@ class CustomMPTTModelAdmin(MPTTModelAdmin):
     list_editable = ('order',)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'text', 'product', 'parent')
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CustomMPTTModelAdmin)
 admin.site.register(Brand, BrandAdmin)
@@ -34,4 +38,4 @@ admin.site.register(Image)
 admin.site.register(Size, SizeAdmin)
 admin.site.register(Gender)
 admin.site.register(ProductSizeSubModel, ProductSizeSubModelAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)

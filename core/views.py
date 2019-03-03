@@ -98,7 +98,8 @@ class DetailProductView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context['reviews'] = Comment.objects.all()
+        context['reviews'] = Comment.objects.filter(parent__isnull=True,
+                                                    product=Product.objects.get(name=self.kwargs.get('product_name')))
 
         return context
 
@@ -118,10 +119,27 @@ class AddReviewView(TemplateView):
 
         context = self.get_context_data()
         form = AddReviewForm(request.POST)
+        product = Product.objects.get(id=request.GET['product_id'])
         context['form'] = form
 
         if form.is_valid():
-            form.save(request.user)
-            return redirect('core:index')
+            parent_obj = None
+            try:
+                parent_id = int(request.GET['parent_id'])
+            except:
+                parent_id = None
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                if parent_obj:
+                    replay_comment = form.save(request.user, product, parent_obj)
+                    replay_comment.parent = parent_obj
+            else:
+                form.save(request.user, product, parent_obj)
+
+            return redirect('core:product',
+                            brand_name=product.brand.name,
+                            gender_category=product.category.get_root(),
+                            category=product.category,
+                            product_name=product.name)
 
         return self.render_to_response(context)

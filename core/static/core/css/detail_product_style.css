@@ -2,9 +2,16 @@ body {
     background: lightgrey;
 }
 
-a {
+.add_review {
     text-decoration: none;
     color: black;
+    margin-left: 285px;
+}
+
+.reply {
+    text-decoration: none;
+    color: black;
+    margin-left: 325px;
 }
 
 img.img1 {
@@ -19,7 +26,7 @@ img.img2 {
     margin: 0 auto;
 }
 
-span.product_name {
+.product_name {
     left: 100px;
 }
 
@@ -45,4 +52,20 @@ span.product_name {
 input {
     position: absolute; /* блок занимает ширину содержимого, max-width её ограничивает */
     left: 20%;
+}
+
+.reviews {
+    border: 2px solid grey;
+    width: 30%;
+    margin-top: 10px;
+}
+
+.reply_div {
+    border: 2px solid grey;
+    width: 80%;
+    margin-left: 70px;
+}
+
+.author {
+    font-weight: bold;
 }
