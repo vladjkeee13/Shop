@@ -1,7 +1,7 @@
 from builtins import super
 
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, TemplateView, DetailView, FormView
 
 from core.forms import AddReviewForm
 from product.models import Brand, Category, Product, Comment
@@ -104,42 +104,69 @@ class DetailProductView(DetailView):
         return context
 
 
-class AddReviewView(TemplateView):
+# class AddReviewView(TemplateView):
+#
+#     template_name = 'add_review.html'
+#
+#     def get_context_data(self, **kwargs):
+#
+#         context = super().get_context_data(**kwargs)
+#         context['form'] = AddReviewForm()
+#
+#         return context
+#
+#     def post(self, request):
+#
+#         context = self.get_context_data()
+#         form = AddReviewForm(request.POST)
+#         product = Product.objects.get(id=request.GET['product_id'])
+#         context['form'] = form
+#
+#         if form.is_valid():
+#             parent_obj = None
+#             try:
+#                 parent_id = int(request.GET['parent_id'])
+#             except:
+#                 parent_id = None
+#             if parent_id:
+#                 parent_obj = Comment.objects.get(id=parent_id)
+#                 if parent_obj:
+#                     replay_comment = form.save(user=request.user, product=product, parent=parent_obj)
+#                     replay_comment.parent = parent_obj
+#             else:
+#                 form.save(user=request.user, product=product, parent=parent_obj)
+#
+#             return redirect('core:product',
+#                             brand_name=product.brand.name,
+#                             gender_category=product.category.get_root(),
+#                             category=product.category,
+#                             product_name=product.name)
+#
+#         return self.render_to_response(context)
+
+
+class AddReviewView(FormView):
 
     template_name = 'add_review.html'
+    form_class = AddReviewForm
 
-    def get_context_data(self, **kwargs):
+    def form_valid(self, form):
+        product = Product.objects.get(id=self.request.GET['product_id'])
+        parent_obj = None
+        try:
+            parent_id = int(self.request.GET['parent_id'])
+        except:
+            parent_id = None
+        if parent_id:
+            parent_obj = Comment.objects.get(id=parent_id)
+            if parent_obj:
+                replay_comment = form.save(user=self.request.user, product=product, parent=parent_obj)
+                replay_comment.parent = parent_obj
+        else:
+            form.save(user=self.request.user, product=product, parent=parent_obj)
 
-        context = super().get_context_data(**kwargs)
-        context['form'] = AddReviewForm()
-
-        return context
-
-    def post(self, request):
-
-        context = self.get_context_data()
-        form = AddReviewForm(request.POST)
-        product = Product.objects.get(id=request.GET['product_id'])
-        context['form'] = form
-
-        if form.is_valid():
-            parent_obj = None
-            try:
-                parent_id = int(request.GET['parent_id'])
-            except:
-                parent_id = None
-            if parent_id:
-                parent_obj = Comment.objects.get(id=parent_id)
-                if parent_obj:
-                    replay_comment = form.save(request.user, product, parent_obj)
-                    replay_comment.parent = parent_obj
-            else:
-                form.save(request.user, product, parent_obj)
-
-            return redirect('core:product',
-                            brand_name=product.brand.name,
-                            gender_category=product.category.get_root(),
-                            category=product.category,
-                            product_name=product.name)
-
-        return self.render_to_response(context)
+        return redirect('core:product',
+                        brand_name=product.brand.name,
+                        gender_category=product.category.get_root(),
+                        category=product.category,
+                        product_name=product.name)

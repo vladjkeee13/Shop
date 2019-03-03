@@ -80,8 +80,7 @@
             <span> There are no comments yet. </span>
         {% endif %}
 
-
-
     </div>
+    <br>
     <a class="add_review" href="{% url 'core:add_review' %}?product_id={{ object.id }} "> <button> Add a review </button></a>
 {% endblock %}
