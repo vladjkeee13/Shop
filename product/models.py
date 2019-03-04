@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from product.managers import CommentManager, CategoryManager, BrandManager, ProductManager
+
 
 class ProductSizeSubModel(models.Model):
     product = models.ForeignKey('product.Product', on_delete=models.CASCADE)
@@ -24,6 +26,8 @@ class Product(models.Model):
     size = models.ManyToManyField('product.Size', through=ProductSizeSubModel)
     description = models.TextField()
 
+    objects = ProductManager()
+
     def __str__(self):
         return self.name
 
@@ -34,6 +38,8 @@ class Category(MPTTModel):
     description = models.TextField(blank=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     order = models.PositiveSmallIntegerField(default=0)
+
+    objects = CategoryManager()
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -56,6 +62,8 @@ class Brand(models.Model):
     image_kids = models.ForeignKey('product.Image', on_delete=models.SET_NULL, null=True, related_name='image_kids')
     order = models.PositiveSmallIntegerField(default=0)
 
+    objects = BrandManager()
+
     def __str__(self):
         return self.name
 
@@ -68,6 +76,8 @@ class Comment(models.Model):
     rating = models.IntegerField(default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='replies')
+
+    comment_manager = CommentManager()
 
 
 class Image(models.Model):

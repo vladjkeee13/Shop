@@ -36,8 +36,9 @@ class CategoriesView(TemplateView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        category = Category.objects.get(name=self.kwargs['gender_category'])
-        brand = Brand.objects.get(name=self.kwargs['brand_name'])
+        # category = Category.objects.get(name=self.kwargs['gender_category'])
+        category = Category.objects.get_gender_category_by_name(name=self.kwargs['gender_category'])
+        brand = Brand.objects.get_brand_by_name(name=self.kwargs['brand_name'])
         children_of_category = category.get_descendants()
 
         context.update({
@@ -53,10 +54,10 @@ class CategoriesView(TemplateView):
 def get_category_product_collection(category, brand):
 
     product_collection = []
-    product_collection += Product.objects.filter(category=category, brand=brand)
+    product_collection += Product.objects.get_product_by_category_and_brand(category=category, brand=brand)
 
     for child in category.get_descendants():
-        product_collection += Product.objects.filter(category=child, brand=brand)
+        product_collection += Product.objects.get_product_by_category_and_brand(category=child, brand=brand)
 
     return product_collection
 
@@ -98,8 +99,8 @@ class DetailProductView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context['reviews'] = Comment.objects.filter(parent__isnull=True,
-                                                    product=Product.objects.get(name=self.kwargs.get('product_name')))
+        # context['reviews'] = Comment.objects.filter(parent__isnull=True, product=self.object)
+        context['reviews'] = Comment.comment_manager.get_comment_by_product(product=self.object)
 
         return context
 
