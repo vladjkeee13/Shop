@@ -4,12 +4,12 @@
 
 
 {% block include_css %}
-{#    <link rel="stylesheet" type="text/css" href="{% static 'core/css/detail_product_style.css' %}">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/add_review_style.css' %}">
 {% endblock include_css %}
 
 
 {% block title %}
-{#    {{ object.name }}#}
+    Add review
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
         <table>
             {{ form.as_table }}
             <tr>
-                <td>
+                <td class="button1">
                     <input type="submit" value="Add a review">
                 </td>
             </tr>

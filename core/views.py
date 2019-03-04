@@ -159,7 +159,7 @@ class AddReviewView(FormView):
         except:
             parent_id = None
         if parent_id:
-            parent_obj = Comment.objects.get(id=parent_id)
+            parent_obj = Comment.comment_manager.get(id=parent_id)
             if parent_obj:
                 replay_comment = form.save(user=self.request.user, product=product, parent=parent_obj)
                 replay_comment.parent = parent_obj

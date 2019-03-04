@@ -1,3 +1,5 @@
+from debug_toolbar.panels import settings
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
@@ -70,7 +72,7 @@ class Brand(models.Model):
 
 class Comment(models.Model):
 
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)

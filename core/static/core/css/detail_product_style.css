@@ -14,16 +14,20 @@ body {
     margin-left: 325px;
 }
 
-img.img1 {
+.img1 {
     width: 375px;
     height: 375px;
 }
 
-img.img2 {
+.img2 {
     width: 75px;
     height: 75px;
     display: block;
     margin: 0 auto;
+}
+.img3 {
+    width: 75px;
+    height: 75px;
 }
 
 .product_name {

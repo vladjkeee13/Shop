@@ -2,7 +2,7 @@
 
 
 {% load staticfiles %}
-
+{% load core_tag %}
 
 {% block include_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/detail_product_style.css' %}">
@@ -54,6 +54,8 @@
 
             {% for review in reviews %}
                 <div class="reviews">
+                    <img class="img3" src="/media/{{ review.author.avatar }}" alt="Img3">
+                    <br>
                     <span class="author" > {{ review.author }} </span>
                     {{ review.date }}
                     <br>
@@ -64,6 +66,8 @@
                     <br>
                 {% for replay in review.replies.all %}
                     <div class="reply_div">
+                        <img class="img3" src="/media/{{ replay.author.avatar }}" alt="Img3">
+                        <br>
                         <span class="author"> {{ review.author }} </span>
                         {{ replay.date }}
                         <br>
@@ -82,5 +86,9 @@
 
     </div>
     <br>
-    <a class="add_review" href="{% url 'core:add_review' %}?product_id={{ object.id }} "> <button> Add a review </button></a>
+
+    {% if user|has_group:'moder' or user.is_staff %}
+        <a class="add_review" href="{% url 'core:add_review' %}?product_id={{ object.id }} "> <button> Add a review </button></a>
+    {% endif %}
+
 {% endblock %}
