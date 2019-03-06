@@ -13,6 +13,40 @@
     {{ object.name }}
 {% endblock %}
 
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            var url = "/set-rating/";
+           $('.increment').click(function () {
+               var data = {
+                   'review_id': $(this).data('id'),
+                   'is_increment': 1
+               };
+               var self = $(this);
+               $.get(url, data, function () {
+                   var rating_element = self.next();
+                   var curr_val = parseInt(rating_element.text());
+                   rating_element.text(curr_val + 1);
+               });
+           });
+
+           $('.decrement').click(function () {
+               var data = {
+                   'review_id': $(this).data('id'),
+                   'is_increment': 0
+               };
+               var self = $(this);
+               $.get(url, data, function () {
+                   var rating_element = self.prev();
+                   var curr_val = parseInt(rating_element.text());
+                   rating_element.text(curr_val - 1);
+               });
+           });
+
+        });
+    </script>
+{% endblock js %}
+
 {% block content %}
 
     <div class="row">
@@ -62,6 +96,11 @@
                     <br>
                     {{ review.text }}
                     <br>
+                    Rating:
+                    <button class="increment" data-id="{{ review.id }}"> + </button>
+                        <span> {{ review.rating }} </span>
+                    <button class="decrement" data-id="{{ review.id }}"> - </button>
+                    <br>
                     <a class="reply" href="{% url 'core:add_review' %}?product_id={{ object.id }}&parent_id={{ review.id }}"> <button> Reply </button> </a>
                     <br>
                 {% for replay in review.replies.all %}
@@ -73,7 +112,12 @@
                         <br>
                         <br>
                         {{ replay.text }}
-                    <br>
+                        <br>
+                        Rating:
+                        <button class="increment" data-id="{{ replay.id }}"> + </button>
+                            <span> {{ replay.rating }} </span>
+                        <button class="decrement" data-id="{{ replay.id }}"> - </button>
+                        <br>
                     </div>
                     <br>
                 {% endfor %}
