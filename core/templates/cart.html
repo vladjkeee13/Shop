@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+
+{% block include_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/cart_style.css' %}">
+{% endblock include_css %}
+
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block content %}
+
+    <h3 class="text-center"> Your bag </h3>
+    <br>
+
+    {% if object.items.count == 0 %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h4 class="text-center"> Your bag is empty </h4>
+
+    {% else %}
+
+        <table class="table">
+            <tr>
+                <td class="text-center"> <strong> Product </strong> </td>
+                <td class="text-center"> <strong> Quantity </strong> </td>
+                <td class="text-center"> <strong> Price </strong> </td>
+                <td class="text-center">  </td>
+            </tr>
+
+            {% for item in object.items.all %}
+
+                <tr>
+                    <td class="text-center"> {{ item.product.name }} </td>
+                    <td class="text-center"> {{ item.quantity }} </td>
+                    <td class="text-center"> {{ item.item_total }}$ </td>
+                    <td class="text-center"> {{ item.size }} </td>
+                    <td class="text-center">
+                        <a href="{% url 'cart:remove-item-from-cart' %}?product_id={{ item.product.id }}">
+                        <button class="btn btn-default"> Remove </button>
+                        </a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+    </table>
+
+    {% endif %}
+
+    {% endblock %}

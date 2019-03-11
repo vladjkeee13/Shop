@@ -78,9 +78,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Shop.wsgi.application'
 
 
-# DEBUG_TOOLBAR_CONFIG = {
-#     'SHOW_TOOLBAR_CALLBACK': lambda r: False,  # disables it
-# }
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda r: False,  # disables it
+}
 # for turn off DEBUG_TOOLBAR'a
 
 # Database

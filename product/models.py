@@ -1,4 +1,3 @@
-from debug_toolbar.panels import settings
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -12,10 +11,6 @@ class ProductSizeSubModel(models.Model):
     size = models.ForeignKey('product.Size', on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
 
-    def size_selection(self):
-        if self.product.gender.GENDER_WOMEN:
-            return self.size.gender.GENDER_WOMEN
-
 
 class Product(models.Model):
 
@@ -24,7 +19,7 @@ class Product(models.Model):
     category = TreeForeignKey("product.Category", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey('product.Brand', on_delete=models.SET_NULL, null=True)
     image = models.ManyToManyField('product.Image')
-    price = models.FloatField(default=0)
+    price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     size = models.ManyToManyField('product.Size', through=ProductSizeSubModel)
     description = models.TextField()
 
@@ -114,9 +109,25 @@ class Gender(models.Model):
 
 class Size(models.Model):
 
-    label = models.CharField(max_length=255)
-    category = TreeForeignKey("product.Category", on_delete=models.SET_NULL, null=True)
-    gender = models.ForeignKey('Gender', on_delete=models.SET_NULL, null=True)
+    XS = 0
+    S = 1
+    M = 2
+    L = 3
+    XL = 4
+    XXL = 5
+
+    SIZE_CHOICES = (
+        (XS, "XS"),
+        (S, "S"),
+        (M, "M"),
+        (L, "L"),
+        (XL, "XL"),
+        (XXL, "XXL")
+    )
+
+    size = models.PositiveSmallIntegerField(choices=SIZE_CHOICES, default=M)
 
     def __str__(self):
-        return self.label
+        for number in self.SIZE_CHOICES:
+            if self.size == number[0]:
+                return number[1]

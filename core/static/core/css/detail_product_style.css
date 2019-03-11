@@ -5,7 +5,7 @@ body {
 .add_review {
     text-decoration: none;
     color: black;
-    margin-left: 285px;
+    margin-left: 425px;
 }
 
 .reply {
@@ -39,10 +39,12 @@ body {
 }
 
 .left, .right {
+    margin-top: 25px;
     width: 25%;
 }
 
 .middle {
+    margin-top: 25px;
     width: 50%;
 }
 
@@ -53,21 +55,19 @@ body {
     clear: both;
 }
 
-input {
-    position: absolute; /* блок занимает ширину содержимого, max-width её ограничивает */
-    left: 20%;
-}
+
 
 .reviews {
     border: 2px solid grey;
-    width: 30%;
+    width: 40%;
     margin-top: 10px;
+    margin-left: 10px;
 }
 
 .reply_div {
     border: 2px solid grey;
     width: 80%;
-    margin-left: 70px;
+    margin-left: 90px;
 }
 
 .author {

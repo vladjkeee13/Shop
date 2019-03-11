@@ -21,23 +21,23 @@
     <div class="grid">
 
         <div class="gender_image">
-            <img class="img" src="/media/{{ object.image_women }}" alt="logo-image">
+            <img class="img_logo" src="/media/{{ object.image_women }}" alt="logo-image">
             <div class="centered">
-                <a href="{% url 'core:categories' brand_name=brand.name gender_category='Women' %}"> Women </a>
+                <a class="category" href="{% url 'core:categories' brand_name=brand.name gender_category='Women' %}"> Women </a>
             </div>
         </div>
 
         <div class="gender_image">
-            <img class="img" src="/media/{{ object.image_men }}" alt="logo-image">
+            <img class="img_logo" src="/media/{{ object.image_men }}" alt="logo-image">
             <div class="centered">
-                <a href="{% url 'core:categories' brand_name=brand.name gender_category='Men' %}"> Men </a>
+                <a class="category" href="{% url 'core:categories' brand_name=brand.name gender_category='Men' %}"> Men </a>
             </div>
         </div>
 
         <div class="gender_image">
-            <img class="img" src="/media/{{ object.image_kids }}" alt="logo-image">
+            <img class="img_logo" src="/media/{{ object.image_kids }}" alt="logo-image">
             <div class="centered">
-                <a href="{% url 'core:categories' brand_name=brand.name gender_category='Kids' %}"> Kids </a>
+                <a class="category" href="{% url 'core:categories' brand_name=brand.name gender_category='Kids' %}"> Kids </a>
             </div>
         </div>
 

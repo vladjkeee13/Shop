@@ -3,8 +3,33 @@ from builtins import super
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView, DetailView, FormView
 
+from cart.models import Cart
 from core.forms import AddReviewForm
 from product.models import Brand, Category, Product, Comment
+
+
+class BaseView(TemplateView):
+
+    template_name = 'base.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
+        context['cart'] = cart
+
+        return context
 
 
 class HomeView(ListView):
@@ -15,6 +40,25 @@ class HomeView(ListView):
     ordering = ['order']
 
     queryset = Brand.objects.all().select_related('image_logo')
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super().get_context_data(*args, **kwargs)
+
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
+        context['cart'] = cart
+
+        return context
 
 
 class BrandsView(DetailView):
@@ -28,6 +72,25 @@ class BrandsView(DetailView):
         queryset = super(BrandsView, self).get_queryset()
         return queryset.select_related('image_women', 'image_men')
 
+    def get_context_data(self, *args, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
+        context['cart'] = cart
+
+        return context
+
 
 class CategoriesView(TemplateView):
 
@@ -36,10 +99,22 @@ class CategoriesView(TemplateView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        # category = Category.objects.get(name=self.kwargs['gender_category'])
         category = Category.objects.get_gender_category_by_name(name=self.kwargs['gender_category'])
         brand = Brand.objects.get_brand_by_name(name=self.kwargs['brand_name'])
         children_of_category = category.get_descendants()
+
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
+        context['cart'] = cart
 
         context.update({
             'category': category,
@@ -72,6 +147,17 @@ class ProductsView(TemplateView):
         cat = Category.objects.all().filter(name=self.kwargs['category'])
         brand = Brand.objects.get(name=self.kwargs['brand_name'])
 
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
         for c in cat:
             if str(c.get_root()) == self.kwargs['gender_category']:
                 cat = c
@@ -80,7 +166,8 @@ class ProductsView(TemplateView):
             'product_collection': get_category_product_collection(cat, brand),
             'category': cat,
             'brand': brand,
-            'gender_category': cat.get_root()
+            'gender_category': cat.get_root(),
+            'cart': cart
         })
 
         return context
@@ -98,58 +185,47 @@ class DetailProductView(DetailView):
 
     def get_context_data(self, **kwargs):
 
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
         context = super().get_context_data(**kwargs)
-        # context['reviews'] = Comment.objects.filter(parent__isnull=True, product=self.object)
         context['reviews'] = Comment.comment_manager.get_comment_by_product(product=self.object)
+        context['cart'] = cart
 
         return context
-
-
-# class AddReviewView(TemplateView):
-#
-#     template_name = 'add_review.html'
-#
-#     def get_context_data(self, **kwargs):
-#
-#         context = super().get_context_data(**kwargs)
-#         context['form'] = AddReviewForm()
-#
-#         return context
-#
-#     def post(self, request):
-#
-#         context = self.get_context_data()
-#         form = AddReviewForm(request.POST)
-#         product = Product.objects.get(id=request.GET['product_id'])
-#         context['form'] = form
-#
-#         if form.is_valid():
-#             parent_obj = None
-#             try:
-#                 parent_id = int(request.GET['parent_id'])
-#             except:
-#                 parent_id = None
-#             if parent_id:
-#                 parent_obj = Comment.objects.get(id=parent_id)
-#                 if parent_obj:
-#                     replay_comment = form.save(user=request.user, product=product, parent=parent_obj)
-#                     replay_comment.parent = parent_obj
-#             else:
-#                 form.save(user=request.user, product=product, parent=parent_obj)
-#
-#             return redirect('core:product',
-#                             brand_name=product.brand.name,
-#                             gender_category=product.category.get_root(),
-#                             category=product.category,
-#                             product_name=product.name)
-#
-#         return self.render_to_response(context)
 
 
 class AddReviewView(FormView):
 
     template_name = 'add_review.html'
     form_class = AddReviewForm
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        try:
+            cart_id = self.request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
+            self.request.session['total'] = cart.items.count()
+        except:
+            cart = Cart()
+            cart.save()
+            cart_id = cart.id
+            self.request.session['cart_id'] = cart_id
+            cart = Cart.objects.get(id=cart_id)
+
+        context['cart'] = cart
+
+        return context
 
     def form_valid(self, form):
         product = Product.objects.get(id=self.request.GET['product_id'])
@@ -171,3 +247,13 @@ class AddReviewView(FormView):
                         gender_category=product.category.get_root(),
                         category=product.category,
                         product_name=product.name)
+
+
+class EditReviewView(AddReviewView):
+
+    def get_form_kwargs(self):
+
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = get_object_or_404(Comment, id=self.kwargs['review_id'], author=self.request.user)
+
+        return kwargs

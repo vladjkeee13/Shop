@@ -24,6 +24,7 @@ from product.views import RatingView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(("core.urls", "core"), namespace="core")),
+    path('', include(("cart.urls", "cart"), namespace="cart")),
     path('set-rating/', RatingView.as_view())
 ]
 

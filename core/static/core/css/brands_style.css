@@ -1,8 +1,7 @@
 body {
     background: lightgrey;
 }
-
-h1 {
+.choice {
     color: black;
     text-align: center;
 }
@@ -20,7 +19,7 @@ h1 {
     text-align: center;
 	}
 
-img {
+.img_logo {
     height: 360px;
     width: 360px;
     border: 1px solid black;
@@ -33,9 +32,10 @@ img {
     transform: translate(-50%, -50%);
 }
 
-a {
+a.category {
     text-decoration: none;
     font-size: 30px;
     color: dimgray;
     font-weight: bold;
+
 }

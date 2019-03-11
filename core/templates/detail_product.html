@@ -14,36 +14,8 @@
 {% endblock %}
 
 {% block js %}
-    <script>
-        $(document).ready(function () {
-            var url = "/set-rating/";
-           $('.increment').click(function () {
-               var data = {
-                   'review_id': $(this).data('id'),
-                   'is_increment': 1
-               };
-               var self = $(this);
-               $.get(url, data, function () {
-                   var rating_element = self.next();
-                   var curr_val = parseInt(rating_element.text());
-                   rating_element.text(curr_val + 1);
-               });
-           });
+    <script src="{% static 'core/js/review_rating.js' %}">
 
-           $('.decrement').click(function () {
-               var data = {
-                   'review_id': $(this).data('id'),
-                   'is_increment': 0
-               };
-               var self = $(this);
-               $.get(url, data, function () {
-                   var rating_element = self.prev();
-                   var curr_val = parseInt(rating_element.text());
-                   rating_element.text(curr_val - 1);
-               });
-           });
-
-        });
     </script>
 {% endblock js %}
 
@@ -66,9 +38,15 @@
             <h2> {{ object.name }} </h2>
             <h2> Price: </h2> {{ object.price }}$
             <h2> Size: </h2>
+            <select>
+                <option> Please select  </option>
                 {% for prod in object.productsizesubmodel_set.all %}
-                    {{ prod.size }} ({{ prod.count }})
+                    <option>{{ prod.size }}</option>
                 {% endfor %}
+            </select>
+            <br>
+            <br>
+            <a href="{% url 'cart:add-to-cart' %}?product_id={{ object.id }}"><button class="btn btn-danger"> Add to cart </button></a>
             <br>
         </div>
 
@@ -100,14 +78,16 @@
                     <button class="increment" data-id="{{ review.id }}"> + </button>
                         <span> {{ review.rating }} </span>
                     <button class="decrement" data-id="{{ review.id }}"> - </button>
+                    <a href="{% url 'core:edit-review' review.id %}?product_id={{ object.id }}">Edit</a>
                     <br>
                     <a class="reply" href="{% url 'core:add_review' %}?product_id={{ object.id }}&parent_id={{ review.id }}"> <button> Reply </button> </a>
+                    <br>
                     <br>
                 {% for replay in review.replies.all %}
                     <div class="reply_div">
                         <img class="img3" src="/media/{{ replay.author.avatar }}" alt="Img3">
                         <br>
-                        <span class="author"> {{ review.author }} </span>
+                        <span class="author"> {{ replay.author }} </span>
                         {{ replay.date }}
                         <br>
                         <br>
@@ -117,6 +97,7 @@
                         <button class="increment" data-id="{{ replay.id }}"> + </button>
                             <span> {{ replay.rating }} </span>
                         <button class="decrement" data-id="{{ replay.id }}"> - </button>
+                        <a href="{% url 'core:edit-review' replay.id %}?product_id={{ object.id }}&parent_id={{ replay.parent_id }}">Edit</a>
                         <br>
                     </div>
                     <br>

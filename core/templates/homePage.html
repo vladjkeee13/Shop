@@ -16,7 +16,7 @@
 
 {% block content %}
 
-    <h1> Welcome to our site! </h1>
+    <h1 class="welcome"> Welcome to our site! </h1>
     {% for brand in brands %}
         <div class="block{{ forloop.counter }}">
             <a href="{% url 'core:brand' brand_name=brand.name %}" >
@@ -25,7 +25,7 @@
         </div>
 
         <div class="block{{ forloop.counter|add:3 }}">
-            <p>
+            <p class="description">
                 {{ brand.description }}
             </p>
         </div>

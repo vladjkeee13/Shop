@@ -21,12 +21,12 @@
 
         <div class="product">
 
-            <div class="product-image">
-                <img src="/media/{{ product.image.first }}" alt="Img1">
+            <div class="product-div">
+                <img class="product-image" src="/media/{{ product.image.first }}" alt="Img1">
             </div>
 
             <div class="product-info">
-                <a href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
+                <a class="product" href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
                         {{ product.name }} </a>
 
             </div>

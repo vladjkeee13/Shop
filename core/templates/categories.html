@@ -22,7 +22,7 @@
     <br>
 
     {% for categor in children_of_category %}
-        <a href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=categor.name %}">
+        <a class="category" href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=categor.name %}">
             <span class="children"> -{{ categor }} </span> </a>
         <br>
     {% endfor %}

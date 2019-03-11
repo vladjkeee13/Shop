@@ -1,5 +1,6 @@
 from django.urls import path
-from core.views import HomeView, BrandsView, CategoriesView, ProductsView, DetailProductView, AddReviewView
+from core.views import HomeView, BrandsView, CategoriesView, ProductsView, DetailProductView, AddReviewView, BaseView, \
+    EditReviewView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),
@@ -8,5 +9,6 @@ urlpatterns = [
     path('brand/<str:brand_name>/<str:gender_category>/<str:category>', ProductsView.as_view(), name='products'),
     path('brand/<str:brand_name>/<str:gender_category>/<str:category>/<str:product_name>',
          DetailProductView.as_view(), name='product'),
-    path('add-review', AddReviewView.as_view(), name='add_review')
+    path('add-review', AddReviewView.as_view(), name='add_review'),
+    path('edit-review/<int:review_id>', EditReviewView.as_view(), name='edit-review')
 ]
