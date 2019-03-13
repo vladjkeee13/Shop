@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView, DetailView, FormView
 
 from cart.models import Cart
-from core.forms import AddReviewForm
+from core.forms import AddReviewForm, SearchForm
 from product.models import Brand, Category, Product, Comment
 
 
@@ -126,7 +126,7 @@ class CategoriesView(TemplateView):
         return context
 
 
-def get_category_product_collection(category, brand):
+def get_id_of_category_product_collection(category, brand):
 
     product_collection = []
     product_collection += Product.objects.get_product_by_category_and_brand(category=category, brand=brand)
@@ -134,7 +134,12 @@ def get_category_product_collection(category, brand):
     for child in category.get_descendants():
         product_collection += Product.objects.get_product_by_category_and_brand(category=child, brand=brand)
 
-    return product_collection
+    id_collection = []
+
+    for product in product_collection:
+        id_collection.append(product.id)
+
+    return id_collection
 
 
 class ProductsView(TemplateView):
@@ -162,13 +167,24 @@ class ProductsView(TemplateView):
             if str(c.get_root()) == self.kwargs['gender_category']:
                 cat = c
 
+        product_collection = Product.objects.filter(id__in=get_id_of_category_product_collection(cat, brand))
+
         context.update({
-            'product_collection': get_category_product_collection(cat, brand),
+            'product_collection': product_collection,
             'category': cat,
             'brand': brand,
             'gender_category': cat.get_root(),
             'cart': cart
         })
+
+        if self.request.GET:
+            context['form'] = SearchForm(data=self.request.GET)
+
+            if context['form'].is_valid():
+                context['product_collection'] = context['form'].get_search_queryset(context['product_collection'])
+        else:
+            context['form'] = SearchForm()
+            # initial = {'lowest_price': 0.00}
 
         return context
 

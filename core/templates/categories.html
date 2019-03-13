@@ -17,14 +17,18 @@
 
 
     <h1> Please, select the category you are interested in! </h1>
-
-    <span class="main_cat"> {{ category }} </span>
+    <a class="category" href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=category %}">
+        <span class="main_cat"> {{ category }} </span>
+    </a>
     <br>
 
     {% for categor in children_of_category %}
+
         <a class="category" href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=categor.name %}">
-            <span class="children"> -{{ categor }} </span> </a>
+            <span class="children"> -{{ categor }} </span>
+        </a>
         <br>
+
     {% endfor %}
 
 {% endblock %}

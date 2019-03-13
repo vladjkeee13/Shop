@@ -1,6 +1,5 @@
 from django.urls import path
-from core.views import HomeView, BrandsView, CategoriesView, ProductsView, DetailProductView, AddReviewView, BaseView, \
-    EditReviewView
+from core.views import HomeView, BrandsView, CategoriesView, ProductsView, DetailProductView, AddReviewView, EditReviewView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),
