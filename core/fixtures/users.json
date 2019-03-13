@@ -1,0 +1,64 @@
+[
+{
+    "model": "core.myuser",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$LxP3xrauy9UB$WyIRwiKc1NkKSLSXClkJjeEs3wLIuhvgc36I5eoERw0=",
+        "last_login": "2019-03-13T07:36:43.702Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@example.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-03-04T11:17:55Z",
+        "avatar": "avatars/photo_2018-09-18_21-13-13.jpg",
+        "phone": "+380955565818",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.myuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$PRNXpNVdzkZR$HnUYaLGxL9TaNWR8KVqg2pZtz3O5jvp+pR4JQ4kH+Oc=",
+        "last_login": "2019-03-11T19:27:31.195Z",
+        "is_superuser": true,
+        "username": "evil_admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-03-11T18:51:16Z",
+        "avatar": "",
+        "phone": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.myuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$c17ig7d9Lgef$PchNIT/rli3Bm41ynJfzoD9i4rI9fQQkntxe9u7tLBk=",
+        "last_login": "2019-03-11T19:37:07.408Z",
+        "is_superuser": true,
+        "username": "admin1",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-03-11T19:36:36Z",
+        "avatar": "",
+        "phone": null,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

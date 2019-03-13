@@ -64,7 +64,7 @@ class SearchForm(forms.Form):
         return queryset.filter(price__gte=self.cleaned_data['highest_price'])
 
     def get_search_queryset(self, queryset):
-        print(self.cleaned_data['category'])
+
         for field_name in self.fields:
             if field_name in self.cleaned_data and self.cleaned_data[field_name]:
                 queryset = getattr(self, f'_filter_by_{field_name}')(queryset)

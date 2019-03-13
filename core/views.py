@@ -1,6 +1,8 @@
 from builtins import super
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView, DetailView, FormView
 
 from cart.models import Cart
@@ -220,6 +222,7 @@ class DetailProductView(DetailView):
         return context
 
 
+@method_decorator(login_required, 'dispatch')
 class AddReviewView(FormView):
 
     template_name = 'add_review.html'
@@ -266,6 +269,7 @@ class AddReviewView(FormView):
                         product_name=product.name)
 
 
+@method_decorator(login_required, 'dispatch')
 class EditReviewView(AddReviewView):
 
     def get_form_kwargs(self):

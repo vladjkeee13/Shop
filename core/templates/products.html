@@ -14,50 +14,62 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    <div>
-        <form method="get" class="search-form">
-            {{ form }}
-            <input type="submit" value="Search">
-        </form>
-    </div>
 
-    <div class="link_clear">
-        <h4> <a class="clear" href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=category.name %}"> Clear </a> </h4>
-    </div>
-
-</div>
     {% if product_collection.count > 0 %}
 
-        <div class="grid">
+        <div>
 
-            {% for product in product_collection %}
-
-            <div class="product">
-
-                <div class="product-div">
-                    <img class="product-image" src="/media/{{ product.image.first }}" alt="Img1">
-                </div>
-
-                <div class="product-info">
-                    <a class="product" href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
-                            {{ product.name }} </a>
-
-                </div>
-
+            <div>
+                <form method="get" class="search-form">
+                    {{ form }}
+                    <input type="submit" value="Search">
+                </form>
             </div>
 
-            {% endfor %}
+            <div class="link_clear">
+                <h4> <a class="clear" href="{% url 'core:products' brand_name=brand.name gender_category=gender_category category=category.name %}"> Clear </a> </h4>
+            </div>
 
         </div>
 
+        {% if product_collection.count > 0 %}
+
+            <div class="grid">
+
+                {% for product in product_collection %}
+
+                <div class="product">
+
+                    <div class="product-div">
+                        <img class="product-image" src="/media/{{ product.image.first }}" alt="Img1">
+                    </div>
+
+                    <div class="product-info">
+                        <a class="product" href="{% url 'core:product' brand_name=brand.name gender_category=gender_category category=category.name product_name=product.name %}">
+                                {{ product.name }} </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+        {% else %}
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <h4 class="text-center"> No matches found! </h4>
+        {% endif %}
     {% else %}
         <br>
         <br>
         <br>
         <br>
         <br>
-        <h4 class="text-center"> No matches found! </h4>
+        <h4 class="text-center"> There are no products in this category! </h4>
     {% endif %}
 
 {% endblock %}
