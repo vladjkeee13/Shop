@@ -38,6 +38,7 @@ class HomeView(ListView):
     model = Brand
     context_object_name = 'brands'
     ordering = ['order']
+    paginate_by = 1
 
     queryset = Brand.objects.all().select_related('image_logo')
 

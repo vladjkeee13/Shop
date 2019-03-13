@@ -18,17 +18,38 @@
 
     <h1 class="welcome"> Welcome to our site! </h1>
     {% for brand in brands %}
-        <div class="block{{ forloop.counter }}">
+        <div class="block1">
             <a href="{% url 'core:brand' brand_name=brand.name %}" >
-                <img class="img{{ forloop.counter }}" src="/media/{{ brand.image_logo.image }}" alt="logo-image">
+                <img class="img{{ page_obj.number }}" src="/media/{{ brand.image_logo.image }}" alt="logo-image">
             </a>
         </div>
 
-        <div class="block{{ forloop.counter|add:3 }}">
+        <div class="block4">
             <p class="description">
                 {{ brand.description }}
             </p>
         </div>
     {% endfor %}
+
+    <div class="paginator">
+        <ul class="pagination nav navbar-nav">
+            {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+                    </li>
+            {% endif %}
+                {% for page in page_obj.paginator.page_range %}
+                    <li class="{% if page_obj.number == page  %} active {% endif %}">
+                        <a href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li>
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 
 {% endblock content%}
