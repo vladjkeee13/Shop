@@ -123,16 +123,17 @@
 
     <script>
          $(document).ready(function () {
-             $( "#add-t-cart-button" ).on( "click", function() {
-                 console.log('asdasd');
-                 var data = $("#add-to-cart-form").serialize();
-             $.ajax({
-                type: "GET",
-                url: '{% url 'cart:add-to-cart' %}',
-                data: data,
-                success: function (data) {
-                    $('#cart_count').html(data.cart_total)
-                }
+
+             $( "#add-to-cart-button" ).on( "click", function() {
+
+                 var data = $("#add_to_cart").serialize();
+                 $.ajax({
+                    type: "GET",
+                    url: '{% url 'cart:add-to-cart' %}',
+                    data: data,
+                    success: function (data) {
+                        $('#cart_count').html(data.cart_total)
+                    }
             });
             });
          });

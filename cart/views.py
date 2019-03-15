@@ -44,11 +44,17 @@ class AddToCartView(View):
             self.request.session['cart_id'] = cart_id
             cart = Cart.objects.get(id=cart_id)
 
-        product_id = request.GET['product_id']
         size = ProductSizeSubModel.objects.get(id=request.GET['product_size'])
         cart.add_to_cart(size)
 
-        return JsonResponse({'cart_total': cart.items.count()})
+        new_cart_total = 0.00
+        for item in cart.items.all():
+            new_cart_total += float(item.item_total)
+
+        cart.cart_total = new_cart_total
+        cart.save()
+
+        return JsonResponse({'cart_total': cart.items.count(), 'cart_total_price': cart.cart_total})
 
 
 class RemoveItemFromCartView(View):
@@ -68,6 +74,13 @@ class RemoveItemFromCartView(View):
 
         item = CartItem.objects.get(id=request.GET['item_id'])
         cart.remove_from_cart(item)
+
+        # new_cart_total = 0.00
+        # for item in cart.items.all():
+        #     new_cart_total += float(item.item_total)
+        #
+        # cart.cart_total = new_cart_total
+        # cart.save()
 
         return redirect('cart:cart')
 

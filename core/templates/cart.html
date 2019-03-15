@@ -50,6 +50,7 @@
                     <td class="text-center"> {{ item.size.size }} </td>
                     <td class="text-center">
                         <a href="{% url 'cart:remove-item-from-cart' %}?item_id={{ item.id }}">
+{#                        class="remove_from_cart" data-id="{{ item.size.product.id }}#}
                         <button class="btn btn-default"> Remove </button>
                         </a>
                     </td>
@@ -94,8 +95,24 @@
 
             });
         });
-
      });
+
+        {#$(".remove_from_cart" ).on( "click", function(e) {#}
+        {#    e.preventDefault();#}
+        {#    var item_id = $(this).attr('data-id');#}
+        {#    var data = {#}
+        {#        item_id: item_id#}
+        {#    };#}
+        {#    $.ajax({#}
+        {#        type: "GET",#}
+        {#        url: '{% url 'cart:remove-item-from-cart' %}',#}
+        {#        data: data,#}
+        {#        success: function (data) {#}
+        {#            $('#cart_count').html(data.cart_total)#}
+        {#        }#}
+        {#     });#}
+        {#    });#}
+        {# });#}
 
     </script>
 
