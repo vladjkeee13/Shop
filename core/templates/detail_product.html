@@ -13,11 +13,7 @@
     {{ object.name }}
 {% endblock %}
 
-{% block js %}
-    <script src="{% static 'core/js/review_rating.js' %}">
 
-    </script>
-{% endblock js %}
 
 {% block content %}
 
@@ -38,7 +34,7 @@
 
             <h2> {{ object.name }} </h2>
             <h2> Price: </h2> {{ object.price }}$
-            <form name="add_to_cart" action="{% url 'cart:add-to-cart'%}" method="get">
+            <form name="add_to_cart" action="{% url 'cart:add-to-cart'%}"  id="add_to_cart" method="get" >
                 <h2> Size: </h2>
                 <select name="product_size">
                         <option > Please select  </option>
@@ -49,7 +45,7 @@
                 <br>
                 <br>
                 {% if request.user.is_authenticated %}
-                    <input type="submit" class="btn btn-danger" value="Add to cart"/>
+                    <input type="button" id="add-to-cart-button" value="Add to cart"/>
                 {% else %}
                     <p style="color: darkslategray"> Only registered users can order goods! </p>
                 {% endif %}
@@ -124,5 +120,22 @@
     {% if request.user.is_authenticated %}
         <a class="add_review" href="{% url 'core:add_review' %}?product_id={{ object.id }} "> <button> Add a review </button></a>
     {% endif %}
+
+    <script>
+         $(document).ready(function () {
+             $( "#add-t-cart-button" ).on( "click", function() {
+                 console.log('asdasd');
+                 var data = $("#add-to-cart-form").serialize();
+             $.ajax({
+                type: "GET",
+                url: '{% url 'cart:add-to-cart' %}',
+                data: data,
+                success: function (data) {
+                    $('#cart_count').html(data.cart_total)
+                }
+            });
+            });
+         });
+    </script>
 
 {% endblock %}

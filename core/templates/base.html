@@ -86,7 +86,7 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url "cart:cart" %}">Cart <span class="badge"> {{ cart.items.count }} </span></a></li>
+            <li><a href="{% url "cart:cart" %}">Cart <span class="badge" id="cart_count"> {{ cart.items.count }} </span></a></li>
           </ul>
 
         </div>

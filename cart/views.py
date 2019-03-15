@@ -44,9 +44,11 @@ class AddToCartView(View):
             self.request.session['cart_id'] = cart_id
             cart = Cart.objects.get(id=cart_id)
 
+        product_id = request.GET['product_id']
         size = ProductSizeSubModel.objects.get(id=request.GET['product_size'])
         cart.add_to_cart(size)
-        return redirect('cart:cart')
+
+        return JsonResponse({'cart_total': cart.items.count()})
 
 
 class RemoveItemFromCartView(View):
@@ -93,4 +95,15 @@ class ChangeItemQuantity(View):
         cart_item.item_total = int(qty) * Decimal(cart_item.size.product.price)
         cart_item.save()
 
-        return JsonResponse({'cart_total': cart.items.count(), 'item_total': cart_item.item_total})
+        new_cart_total = 0.00
+        for item in cart.items.all():
+            new_cart_total += float(item.item_total)
+
+        cart.cart_total = new_cart_total
+        cart.save()
+
+        return JsonResponse({
+            'cart_total': cart.items.count(),
+            'item_total': cart_item.item_total,
+            'cart_total_price': cart.cart_total
+        })

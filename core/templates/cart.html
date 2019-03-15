@@ -57,6 +57,14 @@
 
             {% endfor %}
 
+            <tr>
+                <td>  </td>
+                <td class="text-center"> <strong> Sub-total: </strong> </td>
+                <td class="text-center" id="cart-total-price"> <strong> {{ object.cart_total }} </strong> </td>
+                <td> </td>
+                <td class="text-center">  </td>
+            </tr>
+
     </table>
 
     {% endif %}
@@ -80,7 +88,8 @@
                 url: '{% url 'cart:change-item-quantity' %}',
                 data: data,
                 success: function (data) {
-                    $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + '$')
+                    $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + '$');
+                    $('#cart-total-price').html(parseFloat(data.cart_total_price).toFixed(2) + '$');
                 }
 
             });
