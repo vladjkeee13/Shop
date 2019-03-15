@@ -41,8 +41,12 @@
 
                 <tr>
                     <td class="text-center"> {{ item.size.product.name }} </td>
-                    <td class="text-center"> {{ item.quantity }} </td>
-                    <td class="text-center"> {{ item.item_total }}$ </td>
+                    <td class="text-center">
+                        <form action="" method="GET">
+                            <input type="number" name="quantity" class="cart-item-qty" data-id='{{ item.id }}' value="{{ item.quantity }}" min="1" style="width: 40px;"/>
+                        </form>
+                    </td>
+                    <td class="text-center" id="cart-item-total-{{ item.id }}"> {{ item.item_total }}$ </td>
                     <td class="text-center"> {{ item.size.size }} </td>
                     <td class="text-center">
                         <a href="{% url 'cart:remove-item-from-cart' %}?item_id={{ item.id }}">
@@ -56,5 +60,34 @@
     </table>
 
     {% endif %}
+
+
+    <script>
+
+     $(document).ready(function () {
+
+        $('.cart-item-qty').click(function () {
+
+            var qty = $(this).val();
+            var item_id = $(this).attr('data-id');
+
+            var data = {
+                qty: qty,
+                item_id: item_id
+            };
+            $.ajax({
+                type: "GET",
+                url: '{% url 'cart:change-item-quantity' %}',
+                data: data,
+                success: function (data) {
+                    $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + '$')
+                }
+
+            });
+        });
+
+     });
+
+    </script>
 
     {% endblock %}
