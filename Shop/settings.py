@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'product',
     'cart',
     'mptt',
-    'debug_toolbar'
+    'debug_toolbar',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'core.MyUser'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -2,8 +2,8 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import DetailView
 
-from cart.models import Cart
-from product.models import Product
+from cart.models import Cart, CartItem
+from product.models import Product, ProductSizeSubModel
 
 
 class CartView(DetailView):
@@ -41,9 +41,8 @@ class AddToCartView(View):
             self.request.session['cart_id'] = cart_id
             cart = Cart.objects.get(id=cart_id)
 
-        product = Product.objects.get(id=request.GET['product_id'])
-        cart.add_to_cart(product)
-
+        size = ProductSizeSubModel.objects.get(id=request.GET['product_size'])
+        cart.add_to_cart(size)
         return redirect('cart:cart')
 
 
@@ -62,7 +61,7 @@ class RemoveItemFromCartView(View):
             self.request.session['cart_id'] = cart_id
             cart = Cart.objects.get(id=cart_id)
 
-        product = Product.objects.get(id=request.GET['product_id'])
-        cart.remove_from_cart(product)
+        item = CartItem.objects.get(id=request.GET['item_id'])
+        cart.remove_from_cart(item)
 
         return redirect('cart:cart')

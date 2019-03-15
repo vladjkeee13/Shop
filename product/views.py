@@ -11,20 +11,13 @@ class RatingView(View):
 
         review_id = request.GET['review_id']
 
-        if review_id in request.COOKIES:
+        is_increment = int(request.GET['is_increment'])
 
-            return JsonResponse({'status': 'success'})
-
+        if is_increment:
+            Comment.comment_manager.filter(id=review_id).update(rating=F('rating') + 1)
         else:
+            Comment.comment_manager.filter(id=review_id).update(rating=F('rating') - 1)
 
-            is_increment = int(request.GET['is_increment'])
+        response = JsonResponse({'status': 'success'})
 
-            if is_increment:
-                Comment.comment_manager.filter(id=review_id).update(rating=F('rating') + 1)
-            else:
-                Comment.comment_manager.filter(id=review_id).update(rating=F('rating') - 1)
-
-            response = JsonResponse({'status': 'success'})
-            response.set_cookie(review_id, 'review')
-
-            return response
+        return response

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form class="registration_form" method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <table>
+            {{ form}}
+            <tr>
+                <td class="button1">
+                    <input type="submit" value="Register" style="display:none">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock content %}

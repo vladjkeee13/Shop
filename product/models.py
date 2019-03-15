@@ -7,6 +7,7 @@ from product.managers import CommentManager, CategoryManager, BrandManager, Prod
 
 
 class ProductSizeSubModel(models.Model):
+
     product = models.ForeignKey('product.Product', on_delete=models.CASCADE)
     size = models.ForeignKey('product.Size', on_delete=models.CASCADE)
     count = models.IntegerField(default=0)

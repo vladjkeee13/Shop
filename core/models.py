@@ -10,5 +10,6 @@ class Feedback(models.Model):
 
 
 class MyUser(AbstractUser):
+
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars')
     phone = models.CharField(max_length=255, blank=True, null=True)

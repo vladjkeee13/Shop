@@ -5,12 +5,12 @@ from django.db import models
 
 class CartItem(models.Model):
 
-    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, null=True)
+    size = models.ForeignKey('product.ProductSizeSubModel', on_delete=models.CASCADE, null=True)
     quantity = models.PositiveIntegerField(default=1)
     item_total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
 
     def __str__(self):
-        return "Cart item for product {0}".format(self.product.name)
+        return "Cart item for product {0}".format(self.size.product.name)
 
 
 class Cart(models.Model):
@@ -22,19 +22,18 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
-    def add_to_cart(self, product):
+    def add_to_cart(self, size):
 
         cart = self
-        new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
+        new_item, _ = CartItem.objects.get_or_create(size=size, item_total=size.product.price)
 
         if new_item not in cart.items.all():
             cart.items.add(new_item)
             cart.save()
 
-    def remove_from_cart(self, product):
+    def remove_from_cart(self, item):
 
         cart = self
-        item = CartItem.objects.get(product=product)
 
         if item in cart.items.all():
             cart.items.remove(item)

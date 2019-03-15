@@ -1,12 +1,13 @@
 from builtins import super
 
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView, DetailView, FormView
 
 from cart.models import Cart
-from core.forms import AddReviewForm, SearchForm
+from core.forms import AddReviewForm, SearchForm, RegistrationForm, LoginForm
 from product.models import Brand, Category, Product, Comment
 
 
@@ -36,7 +37,7 @@ class BaseView(TemplateView):
 
 class HomeView(ListView):
 
-    template_name = 'homePage.html'
+    template_name = 'home_page.html'
     model = Brand
     context_object_name = 'brands'
     ordering = ['order']
@@ -278,3 +279,54 @@ class EditReviewView(AddReviewView):
         kwargs['instance'] = get_object_or_404(Comment, id=self.kwargs['review_id'], author=self.request.user)
 
         return kwargs
+
+
+class RegistrationView(FormView):
+
+    template_name = 'registration.html'
+    form_class = RegistrationForm
+
+    def form_valid(self, form):
+
+        user = form.save(commit=False)
+
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+        email = form.cleaned_data['email']
+        phone = form.cleaned_data['phone']
+        avatar = form.cleaned_data['avatar']
+
+        user.username = username
+        user.set_password(password)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.phone = phone
+        user.avatar = avatar
+
+        user.save()
+
+        if user:
+            login(self.request, user)
+
+        return redirect('/')
+
+
+class LoginView(FormView):
+
+    template_name = 'login.html'
+    form_class = LoginForm
+
+    def form_valid(self, form):
+
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+
+        login_user = authenticate(username=username, password=password)
+
+        if login_user:
+            login(self.request, login_user)
+
+        return redirect('/')

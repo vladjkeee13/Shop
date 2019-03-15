@@ -2,20 +2,9 @@ import re
 
 from django import forms
 
-from product.models import Comment, Category
+from core.models import MyUser
+from product.models import Comment
 
-
-# class AddReviewForm(forms.Form):
-#     text = forms.CharField(widget=forms.widgets.Textarea(attrs={'class': 'textarea', 'rows': 8}), required=True)
-#
-#     def save(self, user, product, parent):
-#         comment = Comment.objects.create(
-#             text=self.cleaned_data['text'],
-#             author=user,
-#             product=product,
-#             parent=parent
-#         )
-#         return comment
 
 class AddReviewForm(forms.ModelForm):
 
@@ -70,3 +59,48 @@ class SearchForm(forms.Form):
                 queryset = getattr(self, f'_filter_by_{field_name}')(queryset)
 
         return queryset
+
+
+class RegistrationForm(forms.ModelForm):
+
+    password = forms.CharField(widget=forms.PasswordInput)
+    password_check = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = MyUser
+        fields = ('username', 'password', 'password_check', 'first_name', 'last_name', 'phone', 'email', 'avatar')
+
+    def clean(self):
+
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        password_check = self.cleaned_data['password_check']
+        email = self.cleaned_data['email']
+
+        if MyUser.objects.filter(username=username).exists():
+            raise forms.ValidationError('Юзер с таим именем уже зарегестрирован')
+
+        if password != password_check:
+            raise forms.ValidationError('Пароли не совпадают')
+
+        if MyUser.objects.filter(email=email).exists():
+            raise forms.ValidationError('Пользователь с таким емаилом уже зарегестрирован!')
+
+
+class LoginForm(forms.Form):
+
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+
+        if not MyUser.objects.filter(username=username).exists():
+            raise forms.ValidationError('Пользователь с таким логином не зарегестрирован в системе!')
+
+        user = MyUser.objects.get(username=username)
+
+        if user and not user.check_password(password):
+            raise forms.ValidationError('Неверный пароль!')
